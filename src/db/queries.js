@@ -1,4 +1,4 @@
-const knex = require("knex");
+const knex = require("./knex");
 
 module.exports = {
   bicycle: {
@@ -62,10 +62,21 @@ module.exports = {
   },
   user: {
     getPersonalData: function (id) {
-      return knex("student").where("student_id", id);
+      return knex("profile").where("student_id", id);
     },
     getAllUsers: function () {
-      return knex("student").orderBy("student_id");
+      return knex("profile").orderBy("student_id");
+    },
+    setPersonalData: function (data) {
+      return knex("profile").insert(data).returning("*");
+    },
+  },
+  auth: {
+    authLogin: function (user) {
+      return knex("user").where("username", user.username).first();
+    },
+    registerMember: function (user) {
+      return knex("user").insert(user).returning("*");
     },
   },
 };
