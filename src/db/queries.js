@@ -22,12 +22,13 @@ module.exports = {
           "bicycle.bike_type_id"
         )
         .join("branch", "branch.branch_id", "=", "bicycle.branch_id")
-        .where("bicycle.bike_id", id);
+        .where("bicycle.bike_id", id)
+        .first();
     },
-    borrowBike: function (id, data) {
+    borrowBike: function (id) {
       return knex("bicycle")
         .where("bike_id", id)
-        .update({ is_available: data })
+        .update({ is_available: false })
         .returning("*");
     },
     returnBike: function (id) {
@@ -53,10 +54,10 @@ module.exports = {
     borrowBikeHistory: function (history) {
       return knex("history").insert(history).returning("*");
     },
-    returnBikeHistory: function (id, date) {
+    returnBikeHistory: function (id, date, ontime) {
       return knex("history")
         .where("history_id", id)
-        .update({ finish_date: date })
+        .update({ finish_date: date, return_ontime: ontime })
         .returning("*");
     },
   },

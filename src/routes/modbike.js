@@ -20,26 +20,30 @@ router.get(
 );
 
 router.get(
-  "/bike",
+  "/bike/:id",
   (req, res, next) => {
     checkAuth(req, res, next);
   },
   (req, res) => {
-    queries.bicycle.getBikeById(req.body.bike_id).then((bikes) => {
+    queries.bicycle.getBikeById(req.params.id).then((bikes) => {
       res.json(bikes);
     });
   }
 );
 
 router.put(
-  "/bikes/borrow",
+  "/bikes/borrow/:id",
   (req, res, next) => {
     checkAuth(req, res, next);
   },
   (req, res) => {
     queries.bicycle
-      .borrowBike(req.body.bike_id, req.body.is_available)
-      .then((result) => res.sendStatus(200));
+      .borrowBike(req.params.id)
+      .then((result) =>
+        queries.history
+          .borrowBikeHistory(req.body)
+          .then((response) => res.status(200).json({ message: "complete" }))
+      );
   }
 );
 
@@ -102,14 +106,12 @@ router.get(
 );
 
 router.get(
-  "/history",
+  "/history/:id",
   (req, res, next) => {
     checkAuth(req, res, next);
   },
   (req, res) => {
-    queries.history
-      .getAllHistory(req.body.student_id)
-      .then((his) => res.json(his));
+    queries.history.getAllHistory(req.params.id).then((his) => res.json(his));
   }
 );
 
@@ -126,15 +128,56 @@ router.post(
 );
 
 router.put(
-  "/history",
+  "/history/:id",
   (req, res, next) => {
     checkAuth(req, res, next);
   },
   (req, res) => {
     queries.history
-      .returnBikeHistory(req.body.history_id, req.body.finish_date)
+      .returnBikeHistory(
+        req.params.id,
+        req.body.finish_date,
+        req.body.return_ontime
+      )
       .then((result) => res.sendStatus(200));
   }
 );
+
+router.post("/login", (req, res) => {
+  queries.auth.authLogin(req.body).then((user) => {
+    if (user.password == req.body.password) {
+      return res.status(200).json({ message: "complete", user });
+    } else {
+      console.log(user.password);
+      return res.status(500).json({ message: "fail" });
+    }
+  });
+});
+
+router.post("/register", (req, res) => {
+  queries.auth
+    .registerMember({
+      username: req.body.username,
+      password: req.body.password,
+    })
+    .then((response) =>
+      queries.user
+        .setPersonalData({
+          student_id: req.body.student_id,
+          f_name: req.body.f_name,
+          l_name: req.body.l_name,
+          faculty: req.body.faculty,
+          department: req.body.department,
+          mobile_no: req.body.mobile_no,
+          email: req.body.email,
+          other_contact: req.body.other_contact,
+        })
+        .then((profile) => res.status(200).json({ response, profile }))
+    );
+});
+
+router.get("/:id", (req, res) => {
+  queries.user.getPersonalData(req.params.id).then((user) => res.json(user));
+});
 
 module.exports = router;
