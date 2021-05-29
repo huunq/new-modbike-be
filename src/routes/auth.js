@@ -35,4 +35,8 @@ router.post("/register", (req, res) => {
     );
 });
 
+router.get("/:id", (req, res) => {
+  queries.user.getPersonalData(req.params.id).then((user) => res.json(user));
+});
+
 module.exports = router;

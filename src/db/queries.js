@@ -62,7 +62,7 @@ module.exports = {
   },
   user: {
     getPersonalData: function (id) {
-      return knex("profile").where("student_id", id);
+      return knex("profile").where("student_id", id).first();
     },
     getAllUsers: function () {
       return knex("profile").orderBy("student_id");
