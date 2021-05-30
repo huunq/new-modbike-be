@@ -28,7 +28,7 @@ module.exports = {
     borrowBike: function (id) {
       return knex("bicycle")
         .where("bike_id", id)
-        .update({ is_available: false })
+        .update({ is_available: "no" })
         .returning("*");
     },
     returnBike: function (id) {
