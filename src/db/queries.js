@@ -22,7 +22,7 @@ module.exports = {
           "bicycle.bike_type_id"
         )
         .join("branch", "branch.branch_id", "=", "bicycle.branch_id")
-        .where("bicycle.bike_id", id)
+        .where("bicycle.bike_name", id)
         .first();
     },
     borrowBike: function (id) {
