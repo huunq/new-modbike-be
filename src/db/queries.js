@@ -47,7 +47,7 @@ module.exports = {
   history: {
     getAllHistory: function (id) {
       return knex("history")
-        .join("bicycle", "bicycle.bike_id", "=", "history.bike_id")
+        .join("bicycle", "bicycle.bike_name", "=", "history.bike_id")
         .where("history.student_id", id)
         .orderBy("history.start_date", "asc");
     },
