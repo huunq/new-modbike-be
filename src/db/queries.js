@@ -11,7 +11,7 @@ module.exports = {
           "bicycle.bike_type_id"
         )
         .join("branch", "branch.branch_id", "=", "bicycle.branch_id")
-        .orderBy("bicycle.bike_id");
+        .orderBy("bicycle.bike_name");
     },
     getBikeById: function (id) {
       return knex("bicycle")
@@ -27,7 +27,7 @@ module.exports = {
     },
     borrowBike: function (id) {
       return knex("bicycle")
-        .where("bike_id", id)
+        .where("bike_name", id)
         .update({ is_available: "no" })
         .returning("*");
     },
