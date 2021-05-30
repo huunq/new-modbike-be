@@ -27,13 +27,13 @@ module.exports = {
     },
     borrowBike: function (id) {
       return knex("bicycle")
-        .where("bike_id", id)
+        .where("bike_name", id)
         .update({ is_available: false })
         .returning("*");
     },
     returnBike: function (id) {
       return knex("bicycle")
-        .where("bike_id", id)
+        .where("bike_name", id)
         .update({ is_available: "yes" })
         .returning("*");
     },
