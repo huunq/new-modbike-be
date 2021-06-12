@@ -59,6 +59,14 @@ router.put(
   }
 );
 
+router.post("/bikes/create"),
+  (req, res, next) => {
+    checkAuth(req, res, next);
+  },
+  (req, res) => {
+    queries.bicycle.createBike(req.body).then((result) => res.send(result));
+  };
+
 router.put(
   "/bikes/:id/edit",
   (req, res, next) => {

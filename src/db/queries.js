@@ -37,11 +37,14 @@ module.exports = {
         .update({ is_available: "yes" })
         .returning("*");
     },
+    createBike: function (data) {
+      return knex("bicycle").insert(data).returning("*");
+    },
     editBike: function (id, data) {
-      return knex("bicycle").where("bike_id", id).update(data).returning("*");
+      return knex("bicycle").where("bike_name", id).update(data).returning("*");
     },
     removeBike: function (id) {
-      return knex("bicycle").where("bike_id", id).del();
+      return knex("bicycle").where("bike_name", id).del();
     },
   },
   history: {
