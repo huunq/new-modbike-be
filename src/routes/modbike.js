@@ -47,6 +47,18 @@ router.put(
   }
 );
 
+router.get(
+  "/bikes/types",
+  (req, res, next) => {
+    checkAuth(req, res, next);
+  },
+  (req, res) => {
+    queries.bikeType
+      .allType()
+      .then((response) => res.status(200).json(response));
+  }
+);
+
 router.put(
   "/bikes/return",
   (req, res, next) => {

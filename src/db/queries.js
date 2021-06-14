@@ -83,4 +83,9 @@ module.exports = {
       return knex("user").insert(user).returning("*");
     },
   },
+  bikeType: {
+    allType: function () {
+      return knex("bicycletype").orderBy("bike_type_id");
+    },
+  },
 };
