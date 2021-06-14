@@ -88,4 +88,9 @@ module.exports = {
       return knex("bicycletype").orderBy("bike_type_id");
     },
   },
+  branchs: {
+    allB: function () {
+      return knex("branch").orderBy("branch_id");
+    },
+  },
 };

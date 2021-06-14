@@ -59,6 +59,16 @@ router.get(
   }
 );
 
+router.get(
+  "/bikes/branch",
+  (req, res, next) => {
+    checkAuth(req, res, next);
+  },
+  (req, res) => {
+    queries.branchs.allB().then((result) => res.status(200).json(result));
+  }
+);
+
 router.put(
   "/bikes/return",
   (req, res, next) => {
