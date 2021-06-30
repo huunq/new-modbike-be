@@ -44,7 +44,7 @@ module.exports = {
       return knex("bicycle").where("bike_name", id).update(data).returning("*");
     },
     removeBike: function (id) {
-      return knex("bicycle").where("bike_name", id).del();
+      return knex("bicycle").where("bike_id", id).del();
     },
   },
   history: {

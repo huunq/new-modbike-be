@@ -3,6 +3,7 @@ module.exports = {
       client: "mysql",
       connection: {
         host:  'localhost',
+        port: "8889",
         user: 'root',
         password: 'root',
         database: 'modbike'
